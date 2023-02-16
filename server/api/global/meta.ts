@@ -1,6 +1,19 @@
 import { apiResponse, getMediaLink } from '~~/server/utils'
 import qs from 'qs'
 
+export interface ILevel {
+  levelNo: number
+  disImg: string
+}
+
+export interface IWriter {
+  id: number
+  name: string
+  avatar: string
+  motto: string
+  level: number
+}
+
 export interface IMeta {
   siteName: string
   favicon: string
@@ -11,12 +24,8 @@ export interface IMeta {
     link: string
     qrcode: string
   }
-  leaderboard: {
-    id: number
-    name: string
-    avatar: string
-    motto: string
-  }[]
+  leaderboard: IWriter[]
+  level: ILevel[]
   ads: {
     id: number
     link: string
@@ -38,6 +47,8 @@ export default defineEventHandler(async () => {
         'gadget.qrcode',
         'leaderboard.writer',
         'leaderboard.writer.avatar',
+        'level.level',
+        'level.level.disImg',
         'favicon',
         'ads.thumbnail',
         'siteName',
@@ -64,6 +75,13 @@ export default defineEventHandler(async () => {
         name: item.writer.data.attributes.name,
         motto: item.writer.data.attributes.motto,
         avatar: getMediaLink(item.writer.data.attributes.avatar),
+        level: item.writer.data.attributes.level,
+      }
+    }),
+    level: result.data.attributes.level.map((item: any) => {
+      return {
+        levelNo: item.level.data.attributes.levelNo,
+        disImg: getMediaLink(item.level.data.attributes.disImg),
       }
     }),
     ads: result.data.attributes.ads.map((item: any) => {

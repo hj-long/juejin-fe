@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
 
 const { data } = await useFetch('/api/global/nav')
 const route = useRoute()
@@ -30,7 +30,7 @@ const isHeaderVisible = inject('isHeaderVisible') as Ref<boolean>
               :class="{ 'mobile-shown': isMobileNavShown }"
               @click="toggleMobileNav()"
             >
-              {{ activeNav?.label }}
+              {{ activeNav?.label || '首页' }}
               <IconsArrow class="icon" />
             </div>
             <div
@@ -50,9 +50,7 @@ const isHeaderVisible = inject('isHeaderVisible') as Ref<boolean>
           </div>
         </div>
         <div class="right">
-          <ClientOnly>
-            <UtilsDarkModeMonitor />
-          </ClientOnly>
+          <UtilsDarkModeMonitor />
         </div>
       </div>
     </header>
@@ -101,7 +99,7 @@ header {
 
     &:deep(.logo-text) {
       @apply dark:fill-[#e0e0e0];
-      @apply hidden xs:block;
+      @apply hidden sm:block;
     }
   }
 
@@ -151,7 +149,7 @@ header {
         }
       }
 
-      @screen <xs {
+      @screen <sm {
         @apply -left-65px translate-x-0;
         @apply rounded-l-none;
       }

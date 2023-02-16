@@ -12,12 +12,17 @@
 }
 
 html {
+  @apply bg-[#f4f5f5];
   font-size: 16px;
 }
 
 html.dark {
-  @apply bg-[#222323] text-white;
+  @apply bg-[#333333] text-white;
   color-scheme: dark;
+
+  img {
+    filter: brightness(0.8);
+  }
 }
 
 body {
